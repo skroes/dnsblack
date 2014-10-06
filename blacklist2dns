@@ -4,7 +4,7 @@
 DEBUG=0
 
 # location to put temporary files at
-WORKDIR=/var/tmp
+WORKDIR=workdir
 
 ## information to put into the outputted zone file
 # how to handle DNS lookups to blacklisted domain ('redirect'/'refuse')
@@ -119,7 +119,7 @@ fetch_T () {
 	[ $? -ne 0 ] && return 70
 
 	local TS
-	[ -f "$LOC/$OUT" ] && TS=$(stat -c %Y "$LOC/$OUT") || TS=0 
+	[ -f "$LOC/$OUT" ] && TS=$(stat -c %Y "$LOC/$OUT") || TS=0
 	RC=$?
 	if [ $RC -ne 0 ]; then
 		echo "unable to stat '$LOC/$OUT': $RC" > /dev/stderr
@@ -132,7 +132,7 @@ fetch_T () {
 		echo "unable to call wget: $RC" > /dev/stderr
 		return 70
 	fi
-	
+
 	if [ $FORCE -eq 0 -a $(stat -c %Y "$LOC/$OUT") -eq $TS ]; then
 		echo "finished processing $REF, nothing to do"
 		echo
